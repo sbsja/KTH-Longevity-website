@@ -1,0 +1,108 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-chrome);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--gutter) 0;
+  pointer-events: none;
+}
+.header > * {
+  pointer-events: auto;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-4);
+  color: var(--snow);
+  min-height: 44px;
+}
+.brand:hover {
+  text-decoration: none;
+}
+.brandText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.brandName {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  letter-spacing: 0.01em;
+}
+.brandTag {
+  font-size: var(--text-xs);
+  color: var(--mist);
+  letter-spacing: 0.01em;
+}
+
+.capsule {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 0 0 1px rgba(6, 15, 14, 0.35) inset,
+    0 10px 40px rgba(6, 15, 14, 0.35),
+    0 0 30px rgba(129, 216, 208, 0.08);
+}
+.list {
+  display: flex;
+  align-items: stretch;
+  list-style: none;
+  padding: 0 var(--s-2);
+}
+.item {
+  display: flex;
+  align-items: center;
+}
+.rule {
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin: 0 var(--s-2);
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  color: var(--mist);
+  border-radius: var(--radius-pill);
+  transition: color var(--dur-fast);
+}
+.link:hover {
+  color: var(--snow);
+  text-decoration: none;
+}
+.link[aria-current="page"] {
+  color: var(--snow);
+  text-shadow: 0 0 14px rgba(129, 216, 208, 0.55);
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding-top: var(--s-4);
+  }
+  .brandText {
+    display: none;
+  }
+  .list {
+    padding: 0 var(--s-1);
+  }
+  .rule {
+    width: 12px;
+    margin: 0 1px;
+  }
+  .link {
+    padding: 0 var(--s-2);
+  }
+}

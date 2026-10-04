@@ -1,0 +1,85 @@
+.intro {
+  margin-top: var(--s-4);
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--s-5) var(--s-6);
+  margin: 0;
+}
+.facts div {
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+}
+.facts dt {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  margin-bottom: var(--s-2);
+}
+.facts dd {
+  margin: 0;
+  color: var(--mist);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+.asOf {
+  font-size: var(--text-sm);
+  margin-bottom: var(--s-4);
+}
+.people {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: var(--s-3) var(--s-6);
+  max-width: 56rem;
+}
+.people li {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+.personName {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+.personRole {
+  color: var(--mist);
+  font-size: var(--text-sm);
+}
+.teams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--s-6);
+}
+.team h3 {
+  margin-bottom: var(--s-2);
+}
+.team p {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+.lead {
+  color: var(--tiffany);
+  margin-bottom: var(--s-3);
+}
+.youCould {
+  color: var(--mist);
+  margin-top: var(--s-4);
+  margin-bottom: var(--s-2);
+}
+.tasks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  font-size: var(--text-sm);
+  color: var(--snow);
+}
+.tasks li::before {
+  content: "→ ";
+  color: var(--tiffany);
+}
+.joinLine {
+  margin-top: var(--s-6);
+}

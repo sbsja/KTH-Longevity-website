@@ -1,0 +1,20 @@
+.list {
+  position: relative;
+  z-index: var(--z-page);
+  padding: var(--s-7) var(--gutter) var(--s-8);
+  background: linear-gradient(180deg, rgba(6, 15, 14, 0) 0%, rgba(6, 15, 14, 0.82) 12%, rgba(6, 15, 14, 0.92) 100%);
+}
+.listHeading {
+  margin-bottom: var(--s-5);
+}
+
+/* On desktop the 3D gallery is the page; the list only appears when the scene cannot. */
+@media (min-width: 1024px) {
+  html[data-scene="loading"] .list,
+  html[data-scene="ready"] .list {
+    display: none;
+  }
+  html[data-scene="unavailable"] .list {
+    padding-top: var(--s-6);
+  }
+}

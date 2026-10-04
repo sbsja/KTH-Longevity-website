@@ -1,0 +1,56 @@
+.article {
+  display: block;
+}
+.column {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--s-6) var(--s-6) var(--s-7);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(11, 37, 34, 0.72), rgba(6, 15, 14, 0.82));
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  animation: enter var(--dur-slow) var(--ease-out) both;
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Event detail: text column on the left, the scene's panel shows on the right. */
+@media (min-width: 1024px) {
+  .detail .column {
+    max-width: 44rem;
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .detail {
+    max-width: 90rem;
+    margin: 0 auto;
+  }
+}
+
+.section {
+  margin-top: var(--s-7);
+}
+.sectionTitle {
+  font-size: var(--text-lg);
+  margin-bottom: var(--s-4);
+}
+
+@media (max-width: 640px) {
+  .column {
+    padding: var(--s-5) var(--s-4) var(--s-6);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .column {
+    animation: none;
+  }
+}

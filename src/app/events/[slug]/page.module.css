@@ -1,0 +1,92 @@
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+  color: var(--tiffany);
+  margin-bottom: var(--s-3);
+}
+.meta span + span::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  margin: 0 var(--s-3) 3px 0;
+  opacity: 0.7;
+}
+.title {
+  outline: none;
+}
+.subtitle {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--mist);
+  margin: var(--s-2) 0 var(--s-5);
+}
+.cover {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  margin-bottom: var(--s-5);
+}
+/* On desktop the scene's panel carries the artwork beside the column. */
+@media (min-width: 1024px) {
+  html[data-scene="ready"] .cover {
+    display: none;
+  }
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0 var(--s-6);
+}
+.plainList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.speakerName {
+  font-weight: 600;
+}
+.note {
+  font-size: var(--text-sm);
+  margin-top: var(--s-2);
+}
+.topics {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.topics li {
+  padding: var(--s-1) var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  color: var(--snow);
+}
+.programme {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+.programme li {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: var(--s-4);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+.time {
+  color: var(--tiffany);
+  padding-top: 0.3em;
+}
+.more {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}

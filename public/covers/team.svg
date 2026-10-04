@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img">
+<defs>
+  <radialGradient id="gT" cx="18%" cy="88%" r="75%"><stop offset="0" stop-color="#81D8D0" stop-opacity=".62"/><stop offset=".4" stop-color="#2f8f86" stop-opacity=".2"/><stop offset="1" stop-color="#103430" stop-opacity="0"/></radialGradient>
+  <radialGradient id="gY" cx="88%" cy="8%" r="75%"><stop offset="0" stop-color="#FFEA95" stop-opacity=".42"/><stop offset=".4" stop-color="#9a8a3a" stop-opacity=".08"/><stop offset="1" stop-color="#FFEA95" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gBase" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d2f2b"/><stop offset=".55" stop-color="#081f1c"/><stop offset="1" stop-color="#060F0E"/></linearGradient>
+  <filter id="blur40" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="40"/></filter>
+  <filter id="blur14" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter>
+  <filter id="blur4" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".10"/></feComponentTransfer></filter>
+  
+</defs>
+<rect width="1200" height="750" fill="url(#gBase)"/>
+<rect width="1200" height="750" fill="url(#gT)"/>
+<rect width="1200" height="750" fill="url(#gY)"/>
+<g transform="rotate(-12 500 375)"><rect x="300" y="250" width="400" height="250" rx="26" fill="#81D8D0" fill-opacity=".16" stroke="#81D8D0" stroke-opacity=".75" stroke-width="1.5"/><rect x="322" y="272" width="120" height="6" rx="3" fill="#F2F6F4" fill-opacity=".7"/><rect x="322" y="290" width="200" height="4" rx="2" fill="#F2F6F4" fill-opacity=".35"/></g><g transform="rotate(6 760 425)"><rect x="560" y="300" width="400" height="250" rx="26" fill="#FFEA95" fill-opacity=".16" stroke="#FFEA95" stroke-opacity=".75" stroke-width="1.5"/><rect x="582" y="322" width="120" height="6" rx="3" fill="#F2F6F4" fill-opacity=".7"/><rect x="582" y="340" width="200" height="4" rx="2" fill="#F2F6F4" fill-opacity=".35"/></g><g transform="rotate(-3 630 545)"><rect x="430" y="420" width="400" height="250" rx="26" fill="#3FA79C" fill-opacity=".16" stroke="#3FA79C" stroke-opacity=".75" stroke-width="1.5"/><rect x="452" y="442" width="120" height="6" rx="3" fill="#F2F6F4" fill-opacity=".7"/><rect x="452" y="460" width="200" height="4" rx="2" fill="#F2F6F4" fill-opacity=".35"/></g><circle cx="640" cy="380" r="120" fill="#FFEA95" fill-opacity=".14" filter="url(#blur40)"/></svg>

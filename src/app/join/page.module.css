@@ -1,0 +1,42 @@
+.lede {
+  margin-top: var(--s-4);
+}
+.routes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--s-6);
+}
+.routes section {
+  margin-top: var(--s-7);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+.routes p {
+  color: var(--snow);
+  max-width: 40rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+}
+.teamList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+  font-size: var(--text-sm);
+}
+.teamList li {
+  display: grid;
+  gap: 2px;
+}
+.teamName {
+  font-weight: 600;
+}
+.contact {
+  margin-top: var(--s-7);
+  font-size: var(--text-sm);
+}

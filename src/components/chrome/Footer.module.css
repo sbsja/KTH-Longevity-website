@@ -1,0 +1,44 @@
+.footer {
+  position: relative;
+  z-index: var(--z-page);
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(6, 15, 14, 0.2), rgba(6, 15, 14, 0.85));
+  padding: var(--s-7) var(--gutter) var(--s-8);
+}
+.inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-6);
+  font-size: var(--text-sm);
+}
+.name {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  margin-bottom: var(--s-1);
+}
+.links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  max-width: 34rem;
+}
+.links a {
+  display: inline-block;
+  padding: var(--s-2) 0;
+  color: var(--mist);
+}
+.links a:hover {
+  color: var(--snow);
+}
+
+/* The desktop gallery is a single non-scrolling screen; the footer belongs to the scrolling pages. */
+@media (min-width: 1024px) {
+  :global(html[data-scene-page="true"][data-scene="ready"]) .footer,
+  :global(html[data-scene-page="true"][data-scene="loading"]) .footer {
+    display: none;
+  }
+}
