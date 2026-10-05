@@ -145,3 +145,27 @@ e2e/, tests/        Playwright and Vitest suites
 (Cloudflare Pages, Netlify, GitHub Pages, an S3 bucket). Trailing-slash URLs are used
 (`/events/measuring-aging/`), and `404.html` is provided for hosts that use it. Configure the form
 endpoints before the first deployment; see `docs/CONTENT-SOURCES.md` for the open questions.
+
+### GitHub Pages
+
+`.github/workflows/pages.yml` builds and publishes the site on every push to `main`, at
+`https://<owner>.github.io/<repository>/`. One-time setup in the repository on GitHub:
+**Settings → Pages → Build and deployment → Source: "GitHub Actions"**. Progress shows under the
+**Actions** tab; the first deployment takes a few minutes.
+
+A project site lives under a sub-path, so the workflow builds with
+`NEXT_PUBLIC_BASE_PATH=/<repository>` and `NEXT_PUBLIC_SITE_URL=https://<owner>.github.io/<repository>`.
+Next.js prefixes routes, scripts and fonts with the base path itself; plain image, texture and CSS
+URLs go through `asset()` from `src/lib/assetPath.ts`, so use it for any new reference to a file in
+`public/`. Locally the base path is empty and nothing changes.
+
+To preview the sub-path build on your machine (PowerShell):
+
+```powershell
+$env:NEXT_PUBLIC_BASE_PATH = "/KTH-Longevity-website"; npm run build
+$env:BASE_PATH = "/KTH-Longevity-website"; npm run start   # http://localhost:3011/KTH-Longevity-website/
+```
+
+Clear both variables (set them to `""`) before building for a host that serves from the domain root.
+For a custom domain on GitHub Pages (`kthlongevity.com`), remove the two `env` lines from the
+workflow and add the domain under Settings → Pages; the site then builds for the root again.

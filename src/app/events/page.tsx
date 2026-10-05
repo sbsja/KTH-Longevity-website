@@ -5,6 +5,7 @@ import { nextEventNotice, pastEvents, upcomingEvents } from "@/content/events";
 import { links } from "@/content/links";
 import type { EventRecord } from "@/content/types";
 import styles from "./page.module.css";
+import { asset } from "@/lib/assetPath";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -15,7 +16,7 @@ function EventCard({ e, upcoming }: { e: EventRecord; upcoming?: boolean }) {
   return (
     <li className={styles.row}>
       <Link href={`/events/${e.slug}/`} className={styles.thumbLink} tabIndex={-1} aria-hidden="true">
-        <img src={`/covers/${e.cover.id}.svg`} alt="" width={1200} height={750} loading="lazy" />
+        <img src={asset(`/covers/${e.cover.id}.svg`)} alt="" width={1200} height={750} loading="lazy" />
       </Link>
       <div className={styles.rowBody}>
         <p className={`${styles.meta} mono`}>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Article, Section } from "@/components/page/Article";
 import { events, getEvent, pastEvents, upcomingEvents } from "@/content/events";
+import { asset } from "@/lib/assetPath";
 import styles from "./page.module.css";
 
 export function generateStaticParams() {
@@ -43,7 +44,7 @@ export default async function EventPage(props: PageProps<"/events/[slug]">) {
       {e.subtitle && <p className={styles.subtitle}>{e.subtitle}</p>}
 
       <div className={styles.hero}>
-        <img className={styles.cover} src={`/covers/${e.cover.id}.svg`} alt={e.cover.alt} width={1200} height={750} />
+        <img className={styles.cover} src={asset(`/covers/${e.cover.id}.svg`)} alt={e.cover.alt} width={1200} height={750} />
         <div className={`prose ${styles.lead}`}>
           <p className="lede">{e.summary}</p>
           {e.description.map((p) => (

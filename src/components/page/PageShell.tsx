@@ -12,7 +12,8 @@ import styles from "./Article.module.css";
  * surface over the calmed scene.
  *
  * - "Back to Explore" and Escape return to the home gallery, which keeps its
- *   position because the scene and its store never unmount.
+ *   position because the scene and its store never unmount. Escape pressed in a
+ *   form field only leaves the field.
  * - The exposed gutter outside the surface dismisses the page back to wherever
  *   the visitor came from inside the site (home included), falling back to home
  *   on direct loads. Only a press that both starts and ends on the gutter
@@ -31,7 +32,16 @@ export function PageShell({ children, back = true }: { children: ReactNode; back
     else router.push(plan.href);
   };
 
-  useEscape(() => leave("home"), back);
+  // Escape returns home, except while a form field has focus: there it only
+  // leaves the field, so typing or selecting text in a form never closes the page.
+  useEscape((e) => {
+    const t = e.target as HTMLElement | null;
+    if (t && (t.matches("input, textarea, select, [contenteditable]") || t.isContentEditable)) {
+      t.blur();
+      return;
+    }
+    leave("home");
+  }, back);
 
   useEffect(() => {
     const heading = column.current?.querySelector<HTMLElement>("h1");

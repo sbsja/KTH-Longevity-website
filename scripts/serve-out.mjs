@@ -10,6 +10,8 @@ import path from "node:path";
 
 const root = path.resolve("out");
 const port = Number(process.argv[2] ?? process.env.PORT ?? 3011);
+// Mirror a sub-path host (GitHub Pages project site): BASE_PATH=/repo-name
+const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
 const types = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
@@ -34,6 +36,13 @@ http
   .createServer((req, res) => {
     const url = new URL(req.url ?? "/", "http://localhost");
     let pathname = decodeURIComponent(url.pathname);
+    if (basePath) {
+      if (pathname === basePath || pathname.startsWith(basePath + "/")) pathname = pathname.slice(basePath.length) || "/";
+      else {
+        res.writeHead(404, { "content-type": "text/plain" }).end(`Not under ${basePath}/`);
+        return;
+      }
+    }
     let file = path.join(root, pathname);
     if (!file.startsWith(root)) {
       res.writeHead(403).end();
@@ -49,4 +58,4 @@ http
     res.writeHead(status, { "content-type": types[path.extname(file)] ?? "application/octet-stream", "cache-control": "no-cache" });
     createReadStream(file).pipe(res);
   })
-  .listen(port, () => console.log(`Serving ./out at http://localhost:${port}`));
+  .listen(port, () => console.log(`Serving ./out at http://localhost:${port}${basePath}/`));

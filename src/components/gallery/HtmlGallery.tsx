@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { GalleryItem } from "@/content/types";
 import styles from "./HtmlGallery.module.css";
+import { asset } from "@/lib/assetPath";
 
 /**
  * The same items as the 3D gallery, as a plain HTML list. Used on phones and
@@ -24,7 +25,7 @@ export function HtmlGallery({
     <ul className={`${styles.grid} ${compact ? styles.compact : ""}`} data-gallery-list>
       {items.map((item) => (
         <li key={item.id} className={`card ${styles.item}`}>
-          <img src={`/covers/${item.cover.id}.svg`} alt="" width={1200} height={750} loading="lazy" decoding="async" />
+          <img src={asset(`/covers/${item.cover.id}.svg`)} alt="" width={1200} height={750} loading="lazy" decoding="async" />
           <div className={styles.body}>
             <p className={`${styles.meta} mono`}>
               <span>{item.label}</span>

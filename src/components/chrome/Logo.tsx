@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/content/site";
 import styles from "./Logo.module.css";
+import { asset } from "@/lib/assetPath";
 
 /**
  * The association's logo, as supplied: public/brand/kth-longevity-logo.png
@@ -14,7 +15,7 @@ export function Logo({ className }: { className?: string }) {
     <Link href="/" className={[styles.logo, className].filter(Boolean).join(" ")} aria-label={`${site.name}, home`}>
       <span className={styles.frame} aria-hidden="true">
         {/* Plain <img>: the asset is static and must not be re-encoded. */}
-        <img src="/brand/kth-longevity-logo.png" alt="" width={1008} height={480} decoding="async" fetchPriority="high" />
+        <img src={asset("/brand/kth-longevity-logo.png")} alt="" width={1008} height={480} decoding="async" fetchPriority="high" />
       </span>
     </Link>
   );

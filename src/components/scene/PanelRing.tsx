@@ -10,6 +10,7 @@ import { galleryStore, ringOffset } from "@/lib/galleryStore";
 import type { SceneMode } from "@/lib/sceneStore";
 import { computeTarget, PANEL_H, PANEL_W, RING_RADIUS, type Target } from "./layout";
 import { createPanelMaterial } from "./panelMaterial";
+import { asset } from "@/lib/assetPath";
 
 /** Element that receives the projected rectangle of the active panel as CSS variables. */
 export const HUD_ELEMENT_ID = "gallery-hud";
@@ -29,7 +30,7 @@ function useCoverTextures(items: GalleryItem[]) {
     const maxAniso = gl.capabilities.getMaxAnisotropy();
     for (const item of items) {
       loader.load(
-        `/covers/${item.cover.id}.svg`,
+        asset(`/covers/${item.cover.id}.svg`),
         (tex) => {
           if (cancelled) {
             tex.dispose();

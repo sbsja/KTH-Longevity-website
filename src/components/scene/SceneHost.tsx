@@ -8,6 +8,7 @@ import { galleryStore } from "@/lib/galleryStore";
 import { sceneStore, useSceneState } from "@/lib/sceneStore";
 import { DESKTOP_QUERY, REDUCED_MOTION_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
 import styles from "./SceneHost.module.css";
+import { asset } from "@/lib/assetPath";
 
 /* The WebGL scene is loaded only in the browser, after the HTML is interactive. */
 const Scene = dynamic(() => import("./Scene"), { ssr: false });
@@ -89,7 +90,7 @@ export function SceneHost() {
 
   return (
     <div className={styles.host} aria-hidden="true" data-status={status}>
-      <div className={styles.backdrop} />
+      <div className={styles.backdrop} style={{ "--backdrop-image": `url("${asset("/backdrop.svg")}")` } as React.CSSProperties} />
       {showScene && (
         <SceneErrorBoundary>
           <Scene />
