@@ -17,8 +17,9 @@ describe("ringOffset", () => {
 describe("galleryStore", () => {
   beforeEach(() => galleryStore.reset());
 
-  it("travels forward and backward with wrap-around", () => {
+  it("travels forward and backward with wrap-around over all seven cards", () => {
     const n = featured.length;
+    expect(n).toBe(7);
     expect(galleryStore.getState().activeIndex).toBe(0);
     galleryStore.prev();
     expect(galleryStore.getState().activeIndex).toBe(n - 1);
@@ -28,20 +29,18 @@ describe("galleryStore", () => {
     expect(galleryStore.getState().activeIndex).toBe(2);
   });
 
-  it("keeps the active item when a filter still contains it, otherwise starts at 0", () => {
-    galleryStore.focusItem("research:notes");
-    galleryStore.setCategory("research");
-    expect(galleryStore.activeItem()?.id).toBe("research:notes");
-    galleryStore.setCategory("events");
-    expect(galleryStore.getState().activeIndex).toBe(0);
-    expect(galleryStore.activeItem()?.category).toBe("events");
+  it("focuses a card by id (route → card mapping) and ignores unknown ids", () => {
+    galleryStore.focusItem("section:newsletter");
+    expect(galleryStore.activeItem()?.href).toBe("/newsletter/");
+    const version = galleryStore.getState().travelVersion;
+    galleryStore.focusItem("section:newsletter");
+    expect(galleryStore.getState().travelVersion).toBe(version);
+    galleryStore.focusItem("nope");
+    expect(galleryStore.activeItem()?.href).toBe("/newsletter/");
   });
 
-  it("widens the filter when focusing an item outside it (direct links)", () => {
-    galleryStore.setCategory("events");
-    galleryStore.focusItem("about:community");
-    expect(galleryStore.getState().category).toBe("all");
-    expect(galleryStore.activeItem()?.id).toBe("about:community");
+  it("has no manual pause state any more", () => {
+    expect("paused" in galleryStore.getState()).toBe(false);
   });
 
   it("remembers that the gallery initiated a navigation", () => {
@@ -67,9 +66,13 @@ describe("computeTarget", () => {
     expect(left.x).toBeLessThan(0);
     expect(right.x).toBeGreaterThan(0);
   });
-  it("moves the active panel right in detail mode and dims everything in ambient mode", () => {
+  it("recedes behind the reading surface on content pages instead of standing beside it", () => {
     const detail = computeTarget(0, 7, "detail", true);
-    expect(detail.x).toBeGreaterThan(2);
+    const gallery = computeTarget(0, 7, "gallery", true);
+    expect(detail.z).toBeLessThan(gallery.z - 2);
+    expect(Math.abs(detail.x)).toBeLessThan(1);
+    expect(detail.opacity).toBeLessThan(0.3);
     for (const k of [0, 1, -1, 2]) expect(computeTarget(k, 7, "ambient", true).opacity).toBeLessThan(0.2);
+    expect(computeTarget(1, 7, "detail", true)).toEqual(computeTarget(1, 7, "ambient", true));
   });
 });

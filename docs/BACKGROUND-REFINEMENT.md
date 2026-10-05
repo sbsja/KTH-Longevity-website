@@ -1,5 +1,8 @@
 # Background refinement: molecular microscopy field
 
+> Superseded in colour on 5 October 2026: the same backdrop construction now renders a light
+> aqueous field (see `docs/REVISION-2026-10-05.md`). The mechanics described here are unchanged.
+
 Date: 4 October 2026. Scope: the environment behind the gallery only. Everything that moves
 (panels, helix, particles, camera) keeps its code paths, parameters and timing.
 

@@ -1,5 +1,13 @@
 # KTH Longevity website: content map and design plan
 
+> Revised 5 October 2026: the palette below (deep green, Tiffany, pale yellow) was replaced by a
+> light cellular palette, the home category list by a full top navigation, and every content page
+> gained a return control and backdrop dismissal. See `docs/REVISION-2026-10-05.md`. A second pass
+> the same day replaced the content map with six sections (About, Events, Projects, Job board,
+> Newsletter, Contact), gave every page the wide centred surface, moved the supplied logo to the
+> top left and removed the bottom-left controls. See `docs/REVISION-2026-10-05-SECTIONS.md`. The
+> composition and interaction model of the gallery still hold.
+
 Written 3 October 2026, before implementation. Reference studied live in a JavaScript browser at
 1440×900 and 390×844: https://activetheory.net/work. On the phone viewport the reference keeps the
 same full-viewport 3D scene (spine down the middle, one large panel, side panels at the right,

@@ -24,9 +24,14 @@ export function computeTarget(k: number, n: number, mode: SceneMode, desktop: bo
   const step = (Math.PI * 2) / Math.max(n, 6);
   const far = Math.abs(k) >= 3 || k === 99;
 
-  if (mode === "ambient") {
+  if (mode === "ambient" || mode === "detail") {
+    // Content pages: the ring recedes behind the reading surface and fades to a
+    // restrained layer. On an event page (detail) the opened card stays a touch
+    // more present, drifting back behind the surface rather than beside it, so
+    // nothing competes with the text.
     const theta = k * step;
-    return {
+    const lift = mode === "detail" && desktop ? 1 : 0;
+    const t = {
       x: 0.6 + Math.sin(theta) * (RING_RADIUS + 1.5),
       y: -0.6 - k * 0.35,
       z: Math.cos(theta) * (RING_RADIUS + 1.5) - (RING_RADIUS + 5),
@@ -36,26 +41,10 @@ export function computeTarget(k: number, n: number, mode: SceneMode, desktop: bo
       opacity: far ? 0 : 0.1,
       active: 0,
     };
-  }
-
-  if (mode === "detail") {
-    // Below desktop the page shows the cover in HTML, so the panels step aside entirely.
-    if (!desktop) return { x: 0, y: 2, z: -6, rotY: 0, rotZ: 0, scale: 0.6, opacity: 0, active: 0 };
-    if (k === 0) {
-      return { x: 3.1, y: 0.05, z: 0.3, rotY: -0.38, rotZ: 0.01, scale: 0.88, opacity: 1, active: 1 };
+    if (k === 0 && lift) {
+      return { ...t, x: 0.2, y: -0.2, z: t.z + 1.2, rotY: -0.08, scale: 1.1, opacity: 0.26, active: 0.35 };
     }
-    const theta = k * step;
-    const cx = 3.1;
-    return {
-      x: cx + Math.sin(theta) * RING_RADIUS,
-      y: -k * 0.45,
-      z: Math.cos(theta) * RING_RADIUS - RING_RADIUS + 0.4,
-      rotY: theta - 0.36,
-      rotZ: 0,
-      scale: 0.9,
-      opacity: far ? 0 : Math.abs(k) === 1 ? 0.22 : 0.08,
-      active: 0,
-    };
+    return t;
   }
 
   // gallery

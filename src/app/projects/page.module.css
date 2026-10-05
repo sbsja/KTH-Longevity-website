@@ -1,0 +1,125 @@
+.project {
+  margin-top: var(--s-7);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--line);
+}
+.header {
+  max-width: 56rem;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+  color: var(--text-2);
+  margin-bottom: var(--s-3);
+}
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+}
+.status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+.status[data-status="Ongoing"]::before {
+  background: var(--nucleus);
+}
+.status[data-status="Completed"]::before {
+  background: var(--success);
+}
+.projectTitle {
+  font-size: clamp(var(--text-lg), 2.6vw, var(--text-xl));
+}
+.projectSummary {
+  margin-top: var(--s-3);
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 0 var(--s-8);
+}
+.provides {
+  list-style: none;
+  display: grid;
+  gap: var(--s-3);
+}
+.provides li {
+  position: relative;
+  padding-left: var(--s-5);
+  line-height: 1.55;
+}
+.provides li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+}
+.milestones {
+  list-style: none;
+  display: grid;
+  gap: var(--s-3);
+}
+.milestones li {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: var(--s-4);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--line);
+  line-height: 1.55;
+}
+.when {
+  color: var(--nucleus);
+  padding-top: 0.35em;
+}
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.chips li {
+  padding: var(--s-1) var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+}
+.links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-4);
+}
+.contribute {
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(248, 252, 251, 0.55);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+}
+@media (max-width: 640px) {
+  .milestones li {
+    grid-template-columns: 1fr;
+    gap: var(--s-1);
+  }
+}

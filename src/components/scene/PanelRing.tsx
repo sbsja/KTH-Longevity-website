@@ -159,7 +159,7 @@ function Panel({
   const router = useRouter();
   const group = useRef<THREE.Group>(null);
   const cover = useMemo(() => createPanelMaterial({ aspect: 1.6, radius: 0.07 }), []);
-  const slab = useMemo(() => createPanelMaterial({ aspect: 1.6, radius: 0.075, tint: "#081e1b", rim: 0.25 }), []);
+  const slab = useMemo(() => createPanelMaterial({ aspect: 1.6, radius: 0.075, tint: "#f8fcfb", rim: 0.25 }), []);
   const time = useRef(0);
   const current = useRef<Target>({ x: 0, y: -3, z: -RING_RADIUS, rotY: 0, rotZ: 0, scale: 0.9, opacity: 0, active: 0 });
   const hover = useRef(false);

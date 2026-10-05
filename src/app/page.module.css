@@ -2,7 +2,7 @@
   position: relative;
   z-index: var(--z-page);
   padding: var(--s-7) var(--gutter) var(--s-8);
-  background: linear-gradient(180deg, rgba(6, 15, 14, 0) 0%, rgba(6, 15, 14, 0.82) 12%, rgba(6, 15, 14, 0.92) 100%);
+  background: linear-gradient(180deg, rgba(248, 252, 251, 0) 0%, rgba(248, 252, 251, 0.78) 12%, rgba(248, 252, 251, 0.9) 100%);
 }
 .listHeading {
   margin-bottom: var(--s-5);

@@ -39,6 +39,8 @@ export const links = {
 
 export type Links = typeof links;
 
-export function mailto(subject: string): string {
-  return `mailto:${links.contactEmail}?subject=${encodeURIComponent(subject)}`;
+export function mailto(subject: string, body?: string): string {
+  const params = new URLSearchParams({ subject });
+  if (body) params.set("body", body);
+  return `mailto:${links.contactEmail}?${params.toString().replace(/\+/g, "%20")}`;
 }

@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
-import { Article } from "@/components/page/Article";
-import { ExploreList } from "./ExploreList";
+import { LegacyRedirect } from "@/components/page/LegacyRedirect";
+import { legacyRoutes } from "@/lib/navigation";
 
+/**
+ * Legacy route: the separate list view is gone. The home page shows the same
+ * items as the gallery and lists them as plain HTML whenever the 3D scene is
+ * not available.
+ */
 export const metadata: Metadata = {
-  title: "Browse everything",
-  description: "Every event, research note and way to get involved with KTH Longevity, as a plain list.",
+  title: "Explore",
+  robots: { index: false, follow: true },
 };
 
-export default function ExplorePage() {
-  return (
-    <>
-      <Article wide>
-        <p className="eyebrow">List view</p>
-        <h1>Browse everything</h1>
-        <p className="prose lede" style={{ marginTop: "var(--s-4)" }}>
-          The same items as the gallery, as a list. Filter by what you are looking for.
-        </p>
-        <ExploreList />
-      </Article>
-    </>
-  );
+export default function ExploreRedirect() {
+  return <LegacyRedirect to={legacyRoutes["/explore/"]} label="the home page" />;
 }

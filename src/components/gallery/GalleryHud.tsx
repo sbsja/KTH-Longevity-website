@@ -4,8 +4,6 @@ import gsap from "gsap";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { categories } from "@/content/featured";
-import { site } from "@/content/site";
 import { galleryStore, useGalleryState } from "@/lib/galleryStore";
 import { useSceneState } from "@/lib/sceneStore";
 import { DESKTOP_QUERY, REDUCED_MOTION_QUERY, useMediaQuery } from "@/lib/useMediaQuery";
@@ -13,9 +11,11 @@ import { useGalleryInput, useSwipe } from "./useGalleryInput";
 import styles from "./GalleryHud.module.css";
 
 /**
- * The interface over the scene: category list, active item title and metadata,
- * previous/next, list view, motion control. Everything here is real HTML with
- * real links; the 3D panels are the picture, this is the content.
+ * The interface over the scene: the active item's title and metadata and the
+ * previous/next controls. Everything here is real HTML with real links; the 3D
+ * panels are the picture, this is the content. Continuous motion follows the
+ * visitor's reduced-motion preference; there is no manual pause and no list
+ * link, because the top navigation and the gallery reach every section.
  *
  * On desktop the title sits exactly on the active panel: the scene publishes the
  * panel's projected rectangle as CSS variables on this element every frame.
@@ -73,33 +73,6 @@ export function GalleryHud() {
 
   return (
     <div ref={root} id="gallery-hud" className={styles.hud} data-scene={status}>
-      {/* Intro: what this is, visible on first load */}
-      <p className={styles.intro} data-enter>
-        {site.description}
-      </p>
-
-      {/* Category list, left */}
-      <nav className={styles.categories} aria-label="Gallery categories" data-enter>
-        <p className={`${styles.categoriesLabel} mono`}>What are you looking for?</p>
-        <ul>
-          {categories.map((c) => (
-            <li key={c.id}>
-              <button
-                type="button"
-                className={`${styles.category} mono`}
-                aria-pressed={state.category === c.id}
-                onClick={() => galleryStore.setCategory(c.id)}
-              >
-                <span aria-hidden="true" className={styles.arrow}>
-                  →
-                </span>
-                {c.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
       {/* Mobile swipe surface: the first viewport is the scene hero */}
       <div ref={hero} className={styles.hero} onClick={desktop ? undefined : open} aria-hidden="true" />
 
@@ -135,7 +108,7 @@ export function GalleryHud() {
         </div>
       </section>
 
-      {/* Travel controls, right under the nav */}
+      {/* Travel controls, top right under the header */}
       <div className={styles.controls} data-enter>
         <button type="button" className={styles.arrowBtn} onClick={() => galleryStore.prev()} aria-label="Previous item">
           <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
@@ -152,23 +125,10 @@ export function GalleryHud() {
         </button>
       </div>
 
-      {/* Utilities, bottom */}
-      <div className={styles.utilities} data-enter>
-        <Link href="/explore/" className={`${styles.utility} mono`}>
-          Browse as a list
-        </Link>
-        <button
-          type="button"
-          className={`${styles.utility} mono`}
-          aria-pressed={state.paused}
-          onClick={() => galleryStore.setPaused(!state.paused)}
-        >
-          {state.paused ? "Resume motion" : "Pause motion"}
-        </button>
-        <p className={`${styles.hint} mono`} aria-hidden="true">
-          Scroll, swipe or use arrow keys
-        </p>
-      </div>
+      {/* How to travel: a quiet hint under the controls, no control group at the bottom */}
+      <p className={`${styles.hint} mono`} aria-hidden="true" data-enter>
+        Scroll, swipe or use arrow keys
+      </p>
     </div>
   );
 }

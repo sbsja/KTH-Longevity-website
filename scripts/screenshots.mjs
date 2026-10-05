@@ -4,6 +4,7 @@
  * page sees and any console errors.
  *
  *   node scripts/screenshots.mjs [baseUrl]    (default http://localhost:3010)
+ *   ONLY=home,about OUT_DIR=docs/screenshots/x NO_WEBGL=1 node scripts/screenshots.mjs
  */
 import { chromium } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
@@ -21,12 +22,14 @@ const viewports = [
 ];
 const routes = [
   { name: "home", path: "/", settle: 4500 },
-  { name: "event", path: "/events/measuring-aging/", settle: 3000 },
-  { name: "research", path: "/research/", settle: 1500 },
   { name: "about", path: "/about/", settle: 1500 },
-  { name: "join", path: "/join/", settle: 1500 },
-  { name: "explore", path: "/explore/", settle: 1500 },
   { name: "events", path: "/events/", settle: 1500 },
+  { name: "event", path: "/events/breaking-through-the-blood-brain-barrier/", settle: 3000 },
+  { name: "projects", path: "/projects/", settle: 1500 },
+  { name: "jobs", path: "/jobs/", settle: 1500 },
+  { name: "newsletter", path: "/newsletter/", settle: 1500 },
+  { name: "contact", path: "/contact/", settle: 1500 },
+  { name: "menu", path: "/", settle: 1500, action: "open-menu" },
 ];
 
 const only = process.env.ONLY ? new Set(process.env.ONLY.split(",")) : null;
@@ -61,6 +64,12 @@ for (const vp of viewports) {
     if (only && !only.has(r.name)) continue;
     await page.goto(base + r.path, { waitUntil: "networkidle" });
     await page.waitForTimeout(r.settle);
+    if (r.action === "open-menu") {
+      const button = page.getByRole("button", { name: "Menu" });
+      if (!(await button.isVisible())) continue;
+      await button.click();
+      await page.waitForTimeout(400);
+    }
     const info = await page.evaluate(() => {
       const c = document.createElement("canvas");
       const gl = c.getContext("webgl2") || c.getContext("webgl");
@@ -73,7 +82,7 @@ for (const vp of viewports) {
       };
     });
     const file = path.join(outDir, `${r.name}-${vp.name}.png`);
-    await page.screenshot({ path: file, fullPage: vp.width < 1024 && r.name !== "home" ? false : false });
+    await page.screenshot({ path: file, fullPage: false });
     console.log(`${vp.name} ${r.name}: scene=${info.scene} vis=${info.visibility} gl=${info.renderer} -> ${path.relative(process.cwd(), file)}`);
   }
   if (errors.length) console.log(`  console errors @${vp.name}:\n   - ` + errors.join("\n   - "));

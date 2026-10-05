@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-2) var(--s-4);
-  color: var(--tiffany);
+  color: var(--nucleus);
   margin-bottom: var(--s-3);
 }
 .meta span + span::before {
@@ -21,25 +21,50 @@
 .subtitle {
   font-family: var(--font-display);
   font-size: var(--text-md);
-  color: var(--mist);
+  color: var(--text-2);
   margin: var(--s-2) 0 var(--s-5);
+}
+
+/* Cover beside the text on wide screens, above it on narrow ones */
+.hero {
+  display: grid;
+  gap: var(--s-5) var(--s-7);
+  align-items: start;
 }
 .cover {
   width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
   border-radius: var(--radius);
   border: 1px solid var(--line);
-  margin-bottom: var(--s-5);
 }
-/* On desktop the scene's panel carries the artwork beside the column. */
+.lead p + p {
+  margin-top: 1em;
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
 @media (min-width: 1024px) {
-  html[data-scene="ready"] .cover {
-    display: none;
+  .hero {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+  .hero .lead {
+    order: -1;
+  }
+  .cover {
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-5));
   }
 }
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: 0 var(--s-6);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 0 var(--s-7);
 }
 .plainList {
   list-style: none;
@@ -65,7 +90,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   font-size: var(--text-sm);
-  color: var(--snow);
+  color: var(--text);
 }
 .programme {
   list-style: none;
@@ -75,13 +100,13 @@
 }
 .programme li {
   display: grid;
-  grid-template-columns: 4.5rem 1fr;
+  grid-template-columns: 5.5rem 1fr;
   gap: var(--s-4);
   padding: var(--s-3) 0;
   border-bottom: 1px solid var(--line);
 }
 .time {
-  color: var(--tiffany);
+  color: var(--nucleus);
   padding-top: 0.3em;
 }
 .more {

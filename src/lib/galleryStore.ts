@@ -1,17 +1,12 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { featured, itemsFor } from "@/content/featured";
-import type { Category, GalleryItem } from "@/content/types";
-
-export type CategoryFilter = Category | "all";
+import { featured } from "@/content/featured";
+import type { GalleryItem } from "@/content/types";
 
 export interface GalleryState {
-  category: CategoryFilter;
-  /** Index into the filtered item list. */
+  /** Index into the featured items. */
   activeIndex: number;
-  /** Visitor-controlled pause of continuous motion. */
-  paused: boolean;
   /** Set when the gallery initiated a navigation, so Back/Escape can return in place. */
   cameFromGallery: boolean;
   /** Incremented on every travel so listeners can react to repeated same-index requests. */
@@ -19,9 +14,7 @@ export interface GalleryState {
 }
 
 const initial: GalleryState = {
-  category: "all",
   activeIndex: 0,
-  paused: false,
   cameFromGallery: false,
   travelVersion: 0,
 };
@@ -47,13 +40,13 @@ export const galleryStore = {
     };
   },
   items(): GalleryItem[] {
-    return itemsFor(state.category);
+    return featured;
   },
   activeItem(): GalleryItem | undefined {
-    return itemsFor(state.category)[state.activeIndex];
+    return featured[state.activeIndex];
   },
   setIndex(i: number) {
-    const n = itemsFor(state.category).length;
+    const n = featured.length;
     if (n === 0) return;
     const wrapped = ((i % n) + n) % n;
     set({ activeIndex: wrapped, travelVersion: state.travelVersion + 1 });
@@ -64,28 +57,10 @@ export const galleryStore = {
   prev() {
     galleryStore.setIndex(state.activeIndex - 1);
   },
-  setCategory(category: CategoryFilter) {
-    if (category === state.category) return;
-    const current = galleryStore.activeItem();
-    const items = itemsFor(category);
-    const keep = current ? items.findIndex((i) => i.id === current.id) : -1;
-    set({ category, activeIndex: keep >= 0 ? keep : 0, travelVersion: state.travelVersion + 1 });
-  },
   focusItem(id: string) {
-    const items = itemsFor(state.category);
-    let idx = items.findIndex((i) => i.id === id);
-    if (idx < 0) {
-      // Item is outside the current filter: widen to everything.
-      const all = featured.findIndex((i) => i.id === id);
-      if (all < 0) return;
-      set({ category: "all", activeIndex: all, travelVersion: state.travelVersion + 1 });
-      return;
-    }
-    idx = Math.max(0, idx);
+    const idx = featured.findIndex((i) => i.id === id);
+    if (idx < 0 || idx === state.activeIndex) return;
     set({ activeIndex: idx, travelVersion: state.travelVersion + 1 });
-  },
-  setPaused(paused: boolean) {
-    set({ paused });
   },
   markNavigation(fromGallery: boolean) {
     set({ cameFromGallery: fromGallery });

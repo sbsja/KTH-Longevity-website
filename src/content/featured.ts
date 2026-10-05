@@ -1,116 +1,150 @@
-import { events, getEvent, nextEventNotice } from "./events";
-import type { Category, GalleryItem } from "./types";
+import { featuredEvent } from "./events";
+import type { GalleryItem, SectionId } from "./types";
 
-function eventItem(slug: string): GalleryItem {
-  const e = getEvent(slug);
-  if (!e) throw new Error(`Featured event missing: ${slug}`);
+/**
+ * The seven items on the home gallery's ring, in order. One card per primary
+ * section plus one documented featured event, so the gallery reaches the same
+ * places as the top navigation. The seven cell-cycle covers are assigned in
+ * sequence; the featured event keeps the cover of its own record.
+ */
+function eventCard(): GalleryItem {
+  const e = featuredEvent;
   return {
     id: `event:${e.slug}`,
     kind: "event",
-    category: "events",
     title: e.title,
-    label: "Event",
-    meta: e.status === "past" && e.date.precision === "day" ? e.date.display : e.date.display,
+    label: e.status === "upcoming" ? "Upcoming event" : "Latest event",
+    meta: e.date.display,
     dateIso: e.date.iso,
     summary: e.summary,
     href: `/events/${e.slug}/`,
-    cta: "Read about the event",
+    cta: e.status === "upcoming" ? "About the event" : "Read about the event",
     cover: e.cover,
   };
 }
 
-/**
- * The featured items in gallery order. Seven items: three documented events,
- * the research notes, the association, the teams, and an honest "next event"
- * state. Nothing here is invented to fill the ring.
- */
 export const featured: GalleryItem[] = [
-  eventItem("breaking-through-the-blood-brain-barrier"),
-  eventItem("measuring-aging"),
+  eventCard(),
   {
-    id: "research:notes",
-    kind: "research",
-    category: "research",
-    title: "Reading notes on ageing science",
-    label: "Research",
-    meta: "Reading notes, 2025",
-    summary:
-      "Thirteen papers from the members' weekly reading list: ageing clocks, telomeres, immune ageing, diet and environment. Each with the kind of study it is and what it can tell us.",
-    href: "/research/",
-    cta: "Open the reading notes",
-    cover: {
-      id: "research",
-      alt: "Abstract artwork: two thin helical strands in Tiffany blue and pale yellow crossing a deep green field.",
-      palette: "mixed",
-    },
-  },
-  eventItem("kickoff-seed"),
-  {
-    id: "about:community",
-    kind: "about",
-    category: "community",
+    id: "section:about",
+    kind: "section",
+    section: "about",
     title: "A student community for longevity science",
-    label: "Community",
-    meta: "Stockholm",
+    label: "About",
+    meta: "Stockholm, since 2024",
     summary:
-      "An independent non-profit student association that brings researchers, companies and students into the same room to talk about healthy ageing.",
+      "Who we are, what we do and the people behind KTH Longevity: an independent non-profit student association exploring the science of a longer, healthier life.",
     href: "/about/",
-    cta: "About the association",
+    cta: "About us",
     cover: {
-      id: "community",
-      alt: "Abstract artwork: a constellation of small lights joined by fine lines on deep green.",
+      id: "stage-2-prophase",
+      alt: "Illustration: a cell in prophase, chromosomes condensing inside the nucleus while two centrosomes move apart.",
       palette: "tiffany",
     },
   },
   {
-    id: "team:join",
-    kind: "team",
-    category: "community",
-    title: "Join a team",
-    label: "Get involved",
-    meta: "Partnerships, Communications, Digital",
+    id: "section:events",
+    kind: "section",
+    section: "events",
+    title: "Evenings about a longer, healthier life",
+    label: "Events",
+    meta: "Upcoming and past",
     summary:
-      "Three small teams run the association between events. Find out what each one does and how to hear about the next application round.",
-    href: "/join/",
-    cta: "See how to get involved",
+      "Talks, discussions and networking with researchers and companies working on ageing, usually on campus at KTH. See what is coming up and what we have hosted.",
+    href: "/events/",
+    cta: "See events",
     cover: {
-      id: "team",
-      alt: "Abstract artwork: three overlapping translucent panels in Tiffany blue, pale yellow and green.",
+      id: "stage-3-prometaphase",
+      alt: "Illustration: a cell in prometaphase, spindle fibres reaching scattered chromosomes after the nuclear envelope has gone.",
       palette: "mixed",
     },
   },
   {
-    id: "announcement:next-event",
-    kind: "announcement",
-    category: "events",
-    title: nextEventNotice.title,
-    label: "Upcoming",
-    meta: "Date to be announced",
-    summary: nextEventNotice.body,
-    href: "/events/#upcoming",
-    cta: "How to hear about it first",
+    id: "section:projects",
+    kind: "section",
+    section: "projects",
+    title: "Building the KTH Longevity website",
+    label: "Projects",
+    meta: "Ongoing",
+    summary:
+      "Our current project is the site you are reading: what it is for, where it stands and how members can help shape it.",
+    href: "/projects/",
+    cta: "See the project",
     cover: {
-      id: "next-event",
-      alt: "Abstract artwork: a dashed ring of pale light around a single bright point on deep green.",
+      id: "stage-4-metaphase",
+      alt: "Illustration: a cell in metaphase, chromosomes lined up on the equator between two spindle poles.",
+      palette: "mixed",
+    },
+  },
+  {
+    id: "section:jobs",
+    kind: "section",
+    section: "jobs",
+    title: "Opportunities to work on ageing",
+    label: "Job board",
+    meta: "Roles and positions",
+    summary:
+      "Roles in the association and positions at organisations working on longevity, posted once they are confirmed.",
+    href: "/jobs/",
+    cta: "Open the job board",
+    cover: {
+      id: "stage-5-anaphase",
+      alt: "Illustration: a cell in anaphase, two sets of chromatids drawn toward opposite poles.",
+      palette: "tiffany",
+    },
+  },
+  {
+    id: "section:newsletter",
+    kind: "section",
+    section: "newsletter",
+    title: "Hear about the next evening first",
+    label: "Newsletter",
+    meta: "Updates by email",
+    summary: "Society updates, upcoming events and project news by email, whenever there is something worth telling.",
+    href: "/newsletter/",
+    cta: "Subscribe",
+    cover: {
+      id: "stage-6-telophase",
+      alt: "Illustration: a cell in telophase, two nuclei re-forming as a cleavage furrow pinches the middle.",
+      palette: "mixed",
+    },
+  },
+  {
+    id: "section:contact",
+    kind: "section",
+    section: "contact",
+    title: "Talk to us",
+    label: "Contact",
+    meta: "Questions and collaborations",
+    summary: "Questions, collaboration ideas, a talk you would like to give or hear: write to the board and we will answer.",
+    href: "/contact/",
+    cta: "Get in touch",
+    cover: {
+      id: "stage-7-daughter-cells",
+      alt: "Illustration: two daughter cells after cytokinesis, each with its own nucleus.",
       palette: "yellow",
     },
   },
 ];
 
-export const categories: { id: Category | "all"; label: string }[] = [
-  { id: "all", label: "Everything" },
-  { id: "events", label: "Events" },
-  { id: "research", label: "Research" },
-  { id: "community", label: "Community" },
-];
+const normalise = (pathname: string) => (pathname.endsWith("/") ? pathname : `${pathname}/`);
 
-export function itemsFor(category: Category | "all"): GalleryItem[] {
-  return category === "all" ? featured : featured.filter((i) => i.category === category);
+/** The card for a section, by id. */
+export function sectionCard(section: SectionId): GalleryItem {
+  const item = featured.find((i) => i.section === section);
+  if (!item) throw new Error(`No gallery card for section ${section}`);
+  return item;
 }
 
+/**
+ * Which card a route belongs to: an exact match first, then the Events card for
+ * any event page that is not itself featured. Legacy and unknown routes have no
+ * card, so the gallery keeps its position.
+ */
 export function findItemByHref(pathname: string): GalleryItem | undefined {
-  const norm = pathname.endsWith("/") ? pathname : `${pathname}/`;
-  return featured.find((i) => i.href.split("#")[0] === norm);
+  const p = normalise(pathname);
+  const exact = featured.find((i) => i.href.split("#")[0] === p);
+  if (exact) return exact;
+  if (p.startsWith("/events/")) return sectionCard("events");
+  return undefined;
 }
-
-export const featuredEventSlugs = events.map((e) => e.slug);

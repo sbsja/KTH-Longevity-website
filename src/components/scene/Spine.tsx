@@ -23,27 +23,27 @@ export function Spine({ drift }: { drift: boolean }) {
   const material = useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color("#c9e6e1"),
-        metalness: 0.82,
+        color: new THREE.Color("#3aa3b9"),
+        metalness: 0.78,
         roughness: 0.22,
         clearcoat: 1,
         clearcoatRoughness: 0.18,
-        iridescence: 1,
-        iridescenceIOR: 1.55,
+        iridescence: 0.8,
+        iridescenceIOR: 1.4,
         iridescenceThicknessRange: [140, 520],
-        envMapIntensity: 1.3,
+        envMapIntensity: 1.4,
       }),
     [],
   );
   const rungMaterial = useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color("#7fc9c1"),
-        metalness: 0.6,
-        roughness: 0.35,
-        emissive: new THREE.Color("#1d5a54"),
-        emissiveIntensity: 0.35,
-        iridescence: 0.6,
+        color: new THREE.Color("#175998"),
+        metalness: 0.55,
+        roughness: 0.38,
+        emissive: new THREE.Color("#0f3f6e"),
+        emissiveIntensity: 0.25,
+        iridescence: 0.4,
         envMapIntensity: 1,
       }),
     [],

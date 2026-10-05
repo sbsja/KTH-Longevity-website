@@ -37,7 +37,7 @@ const fragment = /* glsl */ `
     // Gaussian core with a wide faint halo: suspended, softly lit material, not a star.
     float core = exp(-d2 * 16.0);
     float halo = exp(-d2 * 5.0);
-    float a = (core * 0.7 + halo * 0.3) * vAlpha * 0.6;
+    float a = (core * 0.7 + halo * 0.3) * vAlpha * 0.7;
     if (a < 0.003) discard;
     gl_FragColor = vec4(vColor, a);
     #include <colorspace_fragment>
@@ -46,7 +46,7 @@ const fragment = /* glsl */ `
 
 /* Same four slots as before (the seeded picker is unchanged); only the hues moved
    from pure brand lights to pale, slightly desaturated tints of them. */
-const PALETTE = [new THREE.Color("#a7e3dc"), new THREE.Color("#f1e6b4"), new THREE.Color("#dfeeea"), new THREE.Color("#79b8b0")];
+const PALETTE = [new THREE.Color("#ffffff"), new THREE.Color("#69c9dd"), new THREE.Color("#175998"), new THREE.Color("#9fdfe3")];
 
 /** Drifting motes around the spine. Soft, depth-faded, cheap. */
 export function Particles({ count, drift }: { count: number; drift: boolean }) {

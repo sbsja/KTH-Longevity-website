@@ -1,0 +1,64 @@
+.layout {
+  display: grid;
+  gap: var(--s-6) var(--s-8);
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  }
+  .aside {
+    margin-top: var(--s-7);
+  }
+}
+.hosted {
+  display: grid;
+  gap: var(--s-4);
+}
+.hostedAction {
+  margin: 0;
+}
+.or {
+  font-size: var(--text-sm);
+}
+.aside {
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(248, 252, 251, 0.55);
+}
+.asideTitle {
+  font-size: var(--text-md);
+  margin-bottom: var(--s-3);
+}
+.asideTitle + .asideTitle,
+.expect + .asideTitle,
+.asideText + .asideTitle {
+  margin-top: var(--s-5);
+}
+.expect {
+  list-style: none;
+  display: grid;
+  gap: var(--s-2);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+.expect li {
+  position: relative;
+  padding-left: var(--s-4);
+}
+.expect li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--cyan);
+}
+.asideText {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--text-2);
+}

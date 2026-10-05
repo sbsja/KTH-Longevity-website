@@ -1,5 +1,6 @@
-.intro {
-  margin-top: var(--s-4);
+.purpose {
+  margin-bottom: var(--s-5);
+  color: var(--text);
 }
 .facts {
   display: grid;
@@ -18,25 +19,26 @@
 }
 .facts dd {
   margin: 0;
-  color: var(--mist);
+  color: var(--text-2);
   font-size: var(--text-sm);
   line-height: 1.6;
 }
-.asOf {
-  font-size: var(--text-sm);
-  margin-bottom: var(--s-4);
+.subheading {
+  margin-top: var(--s-6);
+  margin-bottom: var(--s-3);
+  font-size: var(--text-md);
 }
 .people {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
   gap: var(--s-3) var(--s-6);
-  max-width: 56rem;
 }
 .people li {
   display: flex;
   flex-direction: column;
-  padding: var(--s-3) 0;
+  gap: 2px;
+  padding: var(--s-3) 0 var(--s-4);
   border-bottom: 1px solid var(--line);
 }
 .personName {
@@ -44,27 +46,35 @@
   font-size: var(--text-md);
 }
 .personRole {
-  color: var(--mist);
+  color: var(--nucleus);
   font-size: var(--text-sm);
+  font-weight: 500;
+}
+.personText {
+  margin-top: var(--s-1);
+  color: var(--text-2);
+  font-size: var(--text-sm);
+  line-height: 1.55;
 }
 .teams {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: var(--s-6);
 }
-.team h3 {
-  margin-bottom: var(--s-2);
+.team h4 {
+  font-size: var(--text-md);
+  margin-bottom: var(--s-1);
 }
 .team p {
   font-size: var(--text-sm);
   line-height: 1.6;
 }
 .lead {
-  color: var(--tiffany);
+  color: var(--nucleus);
   margin-bottom: var(--s-3);
 }
 .youCould {
-  color: var(--mist);
+  color: var(--text-2);
   margin-top: var(--s-4);
   margin-bottom: var(--s-2);
 }
@@ -74,12 +84,128 @@
   flex-direction: column;
   gap: var(--s-1);
   font-size: var(--text-sm);
-  color: var(--snow);
+  color: var(--text);
+}
+.tasks li {
+  padding-left: var(--s-4);
+  position: relative;
 }
 .tasks li::before {
-  content: "→ ";
-  color: var(--tiffany);
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--cyan);
 }
-.joinLine {
+
+/* History: a single vertical line with one dot per milestone */
+.timeline {
+  list-style: none;
+  position: relative;
+  display: grid;
+  gap: var(--s-5);
+  padding-left: 0;
+}
+.timeline li {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: var(--s-5);
+  position: relative;
+}
+.timeline li > div {
+  position: relative;
+  padding-left: var(--s-5);
+  border-left: 1px solid var(--line-strong);
+  padding-bottom: var(--s-2);
+}
+.timeline li > div::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 0.5em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--nucleus);
+  box-shadow: 0 0 0 3px var(--soft-white);
+}
+.when {
+  color: var(--text-2);
+  padding-top: 0.35em;
+}
+.milestoneTitle {
+  font-size: var(--text-md);
+  margin-bottom: var(--s-1);
+}
+.timeline p {
+  color: var(--text-2);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  max-width: 48rem;
+}
+@media (max-width: 640px) {
+  .timeline li {
+    grid-template-columns: 1fr;
+    gap: var(--s-2);
+  }
+  .when {
+    padding-left: var(--s-5);
+  }
+}
+
+/* Participation routes */
+.routes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--s-4);
+}
+.route {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(248, 252, 251, 0.55);
+  color: var(--text);
+  transition:
+    border-color var(--dur-fast),
+    background var(--dur-fast);
+}
+.route:hover,
+.route:focus-visible {
+  text-decoration: none;
+  border-color: var(--nucleus);
+  background: var(--soft-white);
+}
+.routeTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--nucleus);
+}
+.routeText {
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.membership {
   margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  max-width: 56rem;
+}
+.membership h3 {
+  margin-bottom: var(--s-2);
+}
+.membership p {
+  color: var(--text);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
 }

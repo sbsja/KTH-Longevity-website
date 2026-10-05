@@ -4,7 +4,6 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useEffect } from "react";
 import * as THREE from "three";
 import { sceneStore, useSceneState } from "@/lib/sceneStore";
-import { useGalleryState } from "@/lib/galleryStore";
 import { Backdrop } from "./Backdrop";
 import { CameraRig } from "./CameraRig";
 import { Lighting } from "./Lighting";
@@ -12,7 +11,7 @@ import { PanelRing } from "./PanelRing";
 import { Particles } from "./Particles";
 import { Spine } from "./Spine";
 
-const INK = "#060f0e";
+const INK = "#e3faf5"; // the ice-mint field; fog and clear colour share it
 
 function CameraSetup({ desktop }: { desktop: boolean }) {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
@@ -36,10 +35,9 @@ function FrameloopControl({ demand }: { demand: boolean }) {
 
 export default function Scene() {
   const { desktop, reducedMotion, visible, mode } = useSceneState();
-  const { paused } = useGalleryState();
-  // Reduced motion renders single frames; a visitor pause stops drift but keeps travel smooth.
+  // Reduced motion renders single frames and stops the continuous drift.
   const demand = reducedMotion || !visible;
-  const drift = !paused && !reducedMotion;
+  const drift = !reducedMotion;
 
   return (
     <Canvas

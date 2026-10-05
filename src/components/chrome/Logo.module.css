@@ -1,0 +1,55 @@
+/*
+ * Framing of the supplied PNG. The source is 1008 × 480; the visible mark sits
+ * at x 175–838, y 172–308 (a 663 × 136 box including one or two pixels of
+ * breathing room). Everything is derived from --mark-h so one number sets the
+ * size at every breakpoint.
+ */
+.logo {
+  --mark-h: 30px;
+  --img-h: calc(var(--mark-h) * 480 / 136);
+  --img-w: calc(var(--img-h) * 1008 / 480);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  /* The tile colour is the PNG's own background, so the crop has no visible edge. */
+  background: #e3faf5;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 10px 30px rgba(8, 40, 61, 0.08);
+  transition:
+    border-color var(--dur-fast),
+    box-shadow var(--dur-fast);
+}
+.logo:hover {
+  border-color: var(--line-strong);
+  text-decoration: none;
+}
+.logo:focus-visible {
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+.frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: calc(var(--img-w) * 663 / 1008);
+  height: var(--mark-h);
+}
+.frame img {
+  position: absolute;
+  max-width: none;
+  width: var(--img-w);
+  height: var(--img-h);
+  left: calc(-1 * var(--img-w) * 175 / 1008);
+  top: calc(-1 * var(--img-h) * 172 / 480);
+}
+
+@media (max-width: 640px) {
+  .logo {
+    --mark-h: 26px;
+    padding: 0 8px;
+  }
+}

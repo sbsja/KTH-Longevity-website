@@ -1,6 +1,6 @@
 /**
- * Renders the share image (public/og.png, 1200×630) and the favicon
- * (src/app/favicon.ico from src/app/icon.svg) with headless Edge.
+ * Renders the share image (public/og.png, 1200×630, with the supplied logo) and
+ * the favicon (src/app/favicon.ico from src/app/icon.svg) with headless Edge.
  *   node scripts/make-og.mjs
  */
 import { chromium } from "@playwright/test";
@@ -13,33 +13,38 @@ const fonts = {
   instrument: path.join(root, "node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2"),
   mono: path.join(root, "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2"),
 };
-const cover = await readFile(path.join(root, "public/covers/research.svg"), "utf8");
+const cover = await readFile(path.join(root, "public/covers/stage-4-metaphase.svg"), "utf8");
 const coverData = "data:image/svg+xml;base64," + Buffer.from(cover).toString("base64");
+// The supplied logo (1008 × 480); only the mark's box (x 175–838, y 172–308) is framed.
+const logo = await readFile(path.join(root, "public/brand/kth-longevity-logo.png"));
+const logoData = "data:image/png;base64," + logo.toString("base64");
+const MARK_H = 56;
+const IMG_H = (MARK_H * 480) / 136;
+const IMG_W = (IMG_H * 1008) / 480;
 
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Outfit;src:url(http://og.local/outfit.woff2) format('woff2');font-weight:100 900}
 @font-face{font-family:Instrument;src:url(http://og.local/instrument.woff2) format('woff2');font-weight:400 700}
 @font-face{font-family:Mono;src:url(http://og.local/mono.woff2) format('woff2');font-weight:100 800}
 html,body{margin:0}
-.card{position:relative;width:1200px;height:630px;overflow:hidden;background:#060f0e;color:#f2f6f4;font-family:Instrument,sans-serif}
-.art{position:absolute;inset:0;background:url(${coverData}) center/cover;opacity:.9}
-.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,15,14,.92) 0%,rgba(6,15,14,.78) 48%,rgba(6,15,14,.25) 100%)}
-.glow1{position:absolute;left:-10%;bottom:-30%;width:60%;height:80%;background:radial-gradient(closest-side,rgba(129,216,208,.35),transparent 70%)}
-.glow2{position:absolute;right:-5%;top:-30%;width:45%;height:70%;background:radial-gradient(closest-side,rgba(255,234,149,.28),transparent 70%)}
-.mark{position:absolute;left:72px;top:64px;display:grid;grid-template-columns:auto auto auto;font-family:Outfit;font-weight:500;font-size:30px;line-height:.92;letter-spacing:.02em}
-.mark .l{grid-column:1;grid-row:2}.mark .t{grid-column:2;grid-row:2}.mark .y{grid-column:3;grid-row:2}
-.mark .k{grid-column:2;grid-row:1;justify-self:center}.mark .h{grid-column:2;grid-row:3;justify-self:center}
-.eyebrow{position:absolute;left:72px;top:230px;font-family:Mono;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:#81d8d0}
-h1{position:absolute;left:72px;top:262px;margin:0;width:900px;font-family:Outfit;font-weight:500;font-size:66px;line-height:1.04;letter-spacing:-.02em}
-p{position:absolute;left:72px;top:448px;margin:0;width:640px;font-size:24px;line-height:1.4;color:#c7d3cf}
-.pill{position:absolute;right:64px;top:64px;padding:14px 22px;border:1px solid rgba(242,246,244,.3);border-radius:999px;font-family:Mono;font-size:14px;letter-spacing:.1em;text-transform:uppercase;background:rgba(16,52,48,.5)}
+.card{position:relative;width:1200px;height:630px;overflow:hidden;background:#e3faf5;color:#08283d;font-family:Instrument,sans-serif}
+.art{position:absolute;inset:0;background:url(${coverData}) right center/cover}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(227,250,245,.96) 0%,rgba(227,250,245,.86) 42%,rgba(227,250,245,.1) 75%)}
+.glow{position:absolute;left:-10%;bottom:-30%;width:60%;height:80%;background:radial-gradient(closest-side,rgba(105,201,221,.35),transparent 70%)}
+.logo{position:absolute;left:72px;top:64px;display:inline-flex;align-items:center;padding:8px 14px;border:1px solid rgba(8,40,61,.14);border-radius:14px;background:#e3faf5}
+.logo .frame{position:relative;overflow:hidden;width:${(IMG_W * 663) / 1008}px;height:${MARK_H}px}
+.logo img{position:absolute;width:${IMG_W}px;height:${IMG_H}px;left:${(-IMG_W * 175) / 1008}px;top:${(-IMG_H * 172) / 480}px}
+.eyebrow{position:absolute;left:72px;top:230px;font-family:Mono;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:#175998}
+h1{position:absolute;left:72px;top:262px;margin:0;width:760px;font-family:Outfit;font-weight:500;font-size:66px;line-height:1.04;letter-spacing:-.02em;color:#08283d}
+p{position:absolute;left:72px;top:448px;margin:0;width:600px;font-size:24px;line-height:1.4;color:#3c5b6e}
+.pill{position:absolute;right:64px;top:64px;padding:14px 22px;border:1px solid rgba(8,40,61,.25);border-radius:999px;font-family:Mono;font-size:14px;letter-spacing:.1em;text-transform:uppercase;background:rgba(248,252,251,.7);color:#08283d}
 </style></head><body><div class="card">
-<div class="art"></div><div class="shade"></div><div class="glow1"></div><div class="glow2"></div>
-<div class="mark"><span class="k">K</span><span class="l">LONGEVI</span><span class="t">T</span><span class="y">Y</span><span class="h">H</span></div>
-<div class="pill">Stockholm · student association</div>
+<div class="art"></div><div class="shade"></div><div class="glow"></div>
+<div class="logo"><span class="frame"><img src="${logoData}" alt=""></span></div>
+<div class="pill">Stockholm, student association</div>
 <div class="eyebrow">KTH Longevity</div>
 <h1>Connecting students with longevity innovation.</h1>
-<p>Talks, research and a student community exploring the science of a longer, healthier life.</p>
+<p>Talks, projects and a student community exploring the science of a longer, healthier life.</p>
 </div></body></html>`;
 
 const browser = await chromium.launch({ channel: "msedge", headless: true });
@@ -67,7 +72,6 @@ for (const size of sizes) {
 }
 await browser.close();
 
-// ICO container with PNG entries (supported by all current browsers)
 const count = pngs.length;
 const header = Buffer.alloc(6 + 16 * count);
 header.writeUInt16LE(0, 0);

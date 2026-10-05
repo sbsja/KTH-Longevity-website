@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { links } from "@/content/links";
 import { site } from "@/content/site";
+import { primaryNav, secondaryNav } from "@/lib/navigation";
 import styles from "./Footer.module.css";
 
 export function Footer() {
@@ -14,21 +15,16 @@ export function Footer() {
           </p>
         </div>
         <ul className={styles.links} aria-label="Footer">
-          <li>
-            <Link href="/explore/">Browse everything</Link>
-          </li>
-          <li>
-            <Link href="/events/">Events</Link>
-          </li>
-          <li>
-            <Link href="/research/">Research</Link>
-          </li>
-          <li>
-            <Link href="/about/">About</Link>
-          </li>
-          <li>
-            <Link href="/join/">Join</Link>
-          </li>
+          {primaryNav.map((item) => (
+            <li key={item.href}>
+              <Link href={item.href}>{item.label}</Link>
+            </li>
+          ))}
+          {secondaryNav.map((item) => (
+            <li key={item.href}>
+              <Link href={item.href}>{item.label}</Link>
+            </li>
+          ))}
           <li>
             <a href={links.instagram} rel="noopener noreferrer" target="_blank">
               Instagram {links.instagramHandle}

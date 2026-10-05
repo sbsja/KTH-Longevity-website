@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { events, getEvent, pastEvents, upcomingEvents } from "@/content/events";
-import { categories, featured, findItemByHref, itemsFor } from "@/content/featured";
+import { events, eventSortKey, featuredEvent, getEvent, pastEvents, upcomingEvents } from "@/content/events";
+import { featured, findItemByHref, sectionCard } from "@/content/featured";
+import { forms } from "@/content/forms";
 import { links } from "@/content/links";
 import { advisors, board, teams } from "@/content/people";
+import { projects } from "@/content/projects";
 import { research, researchByTopic } from "@/content/research";
+import { milestones } from "@/content/site";
+import { primaryNav } from "@/lib/navigation";
 
-const routes = new Set(["/", "/explore/", "/events/", "/research/", "/about/", "/join/", ...events.map((e) => `/events/${e.slug}/`)]);
+const routes = new Set(["/", ...primaryNav.map((i) => i.href), "/research/", ...events.map((e) => `/events/${e.slug}/`)]);
 
 describe("events", () => {
   it("have unique slugs and every past event is marked past", () => {
@@ -20,45 +24,74 @@ describe("events", () => {
         expect(e.date.iso).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       } else {
         expect(e.date.precision).not.toBe("day");
+        expect(e.date.display).not.toMatch(/\d{1,2} (September|October) 2026/);
       }
     }
     expect(getEvent("breaking-through-the-blood-brain-barrier")?.date.iso).toBeUndefined();
+    expect(getEvent("medai-hackathon")?.date.iso).toBe("2025-09-22");
     expect(getEvent("measuring-aging")?.date.iso).toBe("2025-02-18");
     expect(getEvent("kickoff-seed")?.date.iso).toBe("2024-12-17");
+  });
+  it("lists past events newest first and upcoming events soonest first", () => {
+    const keys = pastEvents.map(eventSortKey);
+    expect([...keys].sort().reverse()).toEqual(keys);
+    expect(pastEvents[0].slug).toBe("breaking-through-the-blood-brain-barrier");
+    expect(pastEvents.at(-1)?.slug).toBe("kickoff-seed");
+    const up = upcomingEvents.map(eventSortKey);
+    expect([...up].sort()).toEqual(up);
   });
   it("never expose a registration link on a past event", () => {
     for (const e of pastEvents) expect(e.registrationUrl ?? null).toBeNull();
   });
   it("has no verified upcoming event right now (so the empty state renders)", () => {
     expect(upcomingEvents).toHaveLength(0);
+    expect(featuredEvent.slug).toBe("breaking-through-the-blood-brain-barrier");
+  });
+  it("only links to verified public pages", () => {
+    for (const e of events) {
+      if (e.externalUrl) expect(e.externalUrl).toMatch(/^https:\/\/(luma\.com|lu\.ma)\//);
+    }
   });
 });
 
 describe("featured gallery", () => {
-  it("links every item to a real route", () => {
+  it("has seven cards: the six sections in navigation order plus one featured event", () => {
+    expect(featured).toHaveLength(7);
+    expect(featured.filter((i) => i.kind === "event")).toHaveLength(1);
+    expect(featured.filter((i) => i.kind === "section").map((i) => i.section)).toEqual(primaryNav.map((i) => i.section));
+    expect(featured[0].id).toBe(`event:${featuredEvent.slug}`);
+  });
+  it("links every card to a real route", () => {
     for (const item of featured) {
       const base = item.href.split("#")[0];
       expect(routes.has(base), `${item.id} -> ${item.href}`).toBe(true);
     }
+    for (const nav of primaryNav) expect(sectionCard(nav.section).href).toBe(nav.href);
   });
-  it("has one shared model for 3D, list and detail", () => {
-    const ids = featured.map((i) => i.id);
-    expect(new Set(ids).size).toBe(ids.length);
+  it("uses the seven cell-cycle covers in sequence, each with alt text", () => {
+    expect(featured.map((i) => i.cover.id)).toEqual([
+      "stage-1-interphase",
+      "stage-2-prophase",
+      "stage-3-prometaphase",
+      "stage-4-metaphase",
+      "stage-5-anaphase",
+      "stage-6-telophase",
+      "stage-7-daughter-cells",
+    ]);
     for (const item of featured) {
       expect(item.title.length).toBeGreaterThan(3);
       expect(item.label.length).toBeGreaterThan(0);
-      expect(item.cover.id).toMatch(/^[a-z-]+$/);
+      expect(item.cover.alt).toMatch(/^Illustration: /);
     }
+    const ids = featured.map((i) => i.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
-  it("filters by category and resolves routes back to items", () => {
-    expect(itemsFor("all")).toHaveLength(featured.length);
-    for (const c of categories) {
-      if (c.id === "all") continue;
-      for (const i of itemsFor(c.id)) expect(i.category).toBe(c.id);
-    }
-    expect(findItemByHref("/events/measuring-aging")?.id).toBe("event:measuring-aging");
-    expect(findItemByHref("/events/measuring-aging/")?.id).toBe("event:measuring-aging");
-    expect(findItemByHref("/about")?.id).toBe("about:community");
+  it("resolves routes back to cards, with the Events card for unfeatured event pages", () => {
+    expect(findItemByHref("/about")?.id).toBe("section:about");
+    expect(findItemByHref("/jobs/")?.id).toBe("section:jobs");
+    expect(findItemByHref(`/events/${featuredEvent.slug}/`)?.id).toBe(`event:${featuredEvent.slug}`);
+    expect(findItemByHref("/events/measuring-aging/")?.id).toBe("section:events");
+    expect(findItemByHref("/research/")).toBeUndefined();
     expect(findItemByHref("/nowhere/")).toBeUndefined();
   });
 });
@@ -84,7 +117,7 @@ describe("research", () => {
   });
 });
 
-describe("people and links", () => {
+describe("people, history, projects", () => {
   it("names only roles the board recorded, and no portraits", () => {
     expect(board.map((p) => p.role)).toEqual([
       "Chairperson",
@@ -96,6 +129,22 @@ describe("people and links", () => {
     expect(advisors).toHaveLength(2);
     expect(teams.map((t) => t.id)).toEqual(["partnerships", "communications", "digital"]);
   });
+  it("keeps the first event and the formal constitution as separate milestones, in order", () => {
+    const keys = milestones.map((m) => m.sortKey);
+    expect([...keys].sort()).toEqual(keys);
+    expect(milestones.find((m) => m.sortKey === "2024-12-17")?.title).toMatch(/first evening/i);
+    expect(milestones.find((m) => m.sortKey === "2025-11-03")?.title).toMatch(/constituted/i);
+  });
+  it("has exactly one project, the website, with no invented links or completion figures", () => {
+    expect(projects).toHaveLength(1);
+    expect(projects[0].slug).toBe("website");
+    expect(projects[0].status).toBe("Ongoing");
+    expect(projects[0].links).toEqual([]);
+    expect(JSON.stringify(projects[0])).not.toMatch(/\d+ ?%/);
+  });
+});
+
+describe("links and forms", () => {
   it("keeps private addresses and editor links out of the configuration", () => {
     const serialized = JSON.stringify(links);
     // Only the organisation mailbox may appear; no personal address of any member.
@@ -104,5 +153,12 @@ describe("people and links", () => {
     expect(serialized).not.toMatch(/docs\.google\.com\/forms/);
     expect(links.recruitmentForm).toBeNull();
     expect(links.contactEmail).toBe("kthlongevity@gmail.com");
+  });
+  it("has no secrets in the form configuration and only https endpoints when set", () => {
+    const serialized = JSON.stringify(forms);
+    expect(serialized).not.toMatch(/api[_-]?key|secret|token/i);
+    for (const endpoint of [forms.contact.endpoint, forms.newsletter.endpoint, forms.newsletter.hostedSignupUrl]) {
+      if (endpoint) expect(endpoint).toMatch(/^https:\/\//);
+    }
   });
 });

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Article, Section } from "@/components/page/Article";
 import { research, researchByTopic, researchIntro } from "@/content/research";
 import styles from "./page.module.css";
@@ -22,8 +23,7 @@ const typeTone: Record<string, string> = {
 export default function ResearchPage() {
   const groups = researchByTopic();
   return (
-    <>
-      <Article wide>
+    <Article>
         <p className="eyebrow">Research</p>
         <h1>{researchIntro.title}</h1>
         <p className={`prose lede ${styles.lede}`}>{researchIntro.lede}</p>
@@ -71,9 +71,9 @@ export default function ResearchPage() {
         ))}
 
         <p className={`muted ${styles.count}`}>
-          {research.length} papers, checked against publisher metadata in October 2026. Suggest one by email.
+          {research.length} papers, checked against publisher metadata in October 2026. Suggest one through the{" "}
+          <Link href="/contact/">contact page</Link>.
         </p>
-      </Article>
-    </>
+    </Article>
   );
 }

@@ -1,13 +1,31 @@
 .article {
   display: block;
 }
+
+/* The exposed gutter outside the surface: a press that starts and ends here dismisses the page. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/*
+ * One wide, centred reading surface for every content page (the Research
+ * layout, now shared). Paragraph text keeps its own measure inside it via
+ * .prose; grids and forms may use the full width.
+ */
 .column {
+  position: relative;
+  z-index: 1;
   max-width: 72rem;
   margin: 0 auto;
-  padding: var(--s-6) var(--s-6) var(--s-7);
+  padding: var(--s-5) var(--s-6) var(--s-7);
   border-radius: var(--radius-lg);
-  background: linear-gradient(180deg, rgba(11, 37, 34, 0.72), rgba(6, 15, 14, 0.82));
-  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(248, 252, 251, 0.9), rgba(248, 252, 251, 0.84));
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 24px 60px rgba(8, 40, 61, 0.1);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   animation: enter var(--dur-slow) var(--ease-out) both;
@@ -23,17 +41,12 @@
   }
 }
 
-/* Event detail: text column on the left, the scene's panel shows on the right. */
-@media (min-width: 1024px) {
-  .detail .column {
-    max-width: 44rem;
-    margin-left: 0;
-    margin-right: auto;
-  }
-  .detail {
-    max-width: 90rem;
-    margin: 0 auto;
-  }
+.column h1[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+
+.intro {
+  margin-top: var(--s-4);
 }
 
 .section {
@@ -43,10 +56,20 @@
   font-size: var(--text-lg);
   margin-bottom: var(--s-4);
 }
+.sectionLead {
+  margin-top: calc(-1 * var(--s-2));
+  margin-bottom: var(--s-5);
+  color: var(--text-2);
+}
 
+@media (min-width: 1024px) {
+  .column {
+    padding: var(--s-5) var(--s-7) var(--s-8);
+  }
+}
 @media (max-width: 640px) {
   .column {
-    padding: var(--s-5) var(--s-4) var(--s-6);
+    padding: var(--s-4) var(--s-4) var(--s-6);
   }
 }
 @media (prefers-reduced-motion: reduce) {

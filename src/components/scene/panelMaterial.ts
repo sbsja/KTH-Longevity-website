@@ -47,10 +47,10 @@ const fragment = /* glsl */ `
     vec3 col;
     if (uHasMap > 0.5) {
       col = texture2D(uMap, vUv).rgb;
-      vec3 dimmed = col * 0.5 + vec3(0.003, 0.012, 0.010);
+      vec3 dimmed = mix(col, vec3(0.78, 0.96, 0.92), 0.5);
       col = mix(dimmed, col, uActive);
       float v = smoothstep(1.15, 0.3, length(p / b));
-      col *= 0.8 + 0.2 * v;
+      col *= 0.9 + 0.1 * v;
       float sheen = smoothstep(0.25, 1.0, (vUv.x * 0.7 + vUv.y * 0.3) + 0.06 * sin(uTime * 0.35));
       col += vec3(0.85, 1.0, 0.97) * sheen * 0.008 * (0.5 + 0.5 * uActive);
     } else {
@@ -61,7 +61,7 @@ const fragment = /* glsl */ `
     float outer = 1.0 - smoothstep(-0.003, 0.0, d);
     float rim = inner * outer;
     float hue = 0.5 + 0.5 * sin(uTime * 0.5 + p.x * 1.6 + p.y * 2.4);
-    vec3 rimCol = mix(vec3(0.506, 0.847, 0.816), vec3(1.0, 0.918, 0.584), hue);
+    vec3 rimCol = mix(vec3(1.0, 1.0, 1.0), vec3(0.14, 0.58, 0.72), hue);
     col += rimCol * rim * uRim * (0.4 + 0.6 * uActive);
 
     col += (hash(gl_FragCoord.xy + vec2(fract(uTime) * 61.0)) - 0.5) * 0.006;
@@ -90,7 +90,7 @@ export function createPanelMaterial(opts: { aspect: number; radius?: number; tin
     uOpacity: { value: 0 },
     uActive: { value: 0 },
     uTime: { value: 0 },
-    uTint: { value: new THREE.Color(opts.tint ?? "#0b2522") },
+    uTint: { value: new THREE.Color(opts.tint ?? "#f8fcfb") },
     uAspect: { value: opts.aspect },
     uRadius: { value: opts.radius ?? 0.07 },
     uRim: { value: opts.rim ?? 1 },

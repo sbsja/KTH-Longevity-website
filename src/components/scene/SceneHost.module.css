@@ -3,7 +3,7 @@
   inset: 0;
   z-index: var(--z-scene);
   overflow: hidden;
-  background: var(--ink);
+  background: var(--bg);
 }
 .host canvas {
   display: block;
@@ -16,18 +16,17 @@
   opacity: 1;
 }
 
-/* Always-present atmosphere: the same molecular field the WebGL scene draws, as a static
-   image generated from the same data (scripts/make-backdrop.mjs). Visitors see it before
-   the scene fades in and whenever WebGL is unavailable; the gradients cover any image delay. */
+/* Always-present atmosphere: the same aqueous cellular field the WebGL scene draws,
+   as a static image generated from the same data (scripts/make-backdrop.mjs).
+   Visitors see it before the scene fades in and whenever WebGL is unavailable. */
 .backdrop {
   position: absolute;
   inset: 0;
   background:
     url("/backdrop.svg") center / cover no-repeat,
-    radial-gradient(60% 55% at 12% 92%, rgba(129, 216, 208, 0.18), transparent 70%),
-    radial-gradient(50% 45% at 90% 6%, rgba(255, 234, 149, 0.1), transparent 70%),
-    radial-gradient(70% 60% at 55% 50%, rgba(16, 52, 48, 0.55), transparent 75%),
-    linear-gradient(180deg, #0a1f1c 0%, var(--ink) 100%);
+    radial-gradient(60% 55% at 12% 92%, rgba(105, 201, 221, 0.35), transparent 70%),
+    radial-gradient(50% 45% at 90% 6%, rgba(248, 252, 251, 0.9), transparent 70%),
+    linear-gradient(180deg, #eefcf9 0%, var(--ice) 55%, var(--aqua) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -11,8 +11,8 @@ function damp(current: number, target: number, lambda: number, dt: number) {
 
 /**
  * Camera composition per mode, plus a subtle pointer parallax on desktop.
- * Gallery: looking straight down the spine. Detail: shifted so the page column
- * has room on the left. Ambient: pulled back and calm.
+ * Gallery: looking straight down the spine. Content pages (detail and ambient):
+ * pulled back and calm behind the full-width reading surface.
  */
 export function CameraRig({ desktop, reducedMotion, mode }: { desktop: boolean; reducedMotion: boolean; mode: SceneMode }) {
   const camera = useThree((s) => s.camera);
@@ -27,9 +27,6 @@ export function CameraRig({ desktop, reducedMotion, mode }: { desktop: boolean; 
     if (mode === "gallery") {
       base.set(0, desktop ? 0.15 : 0.6, desktop ? 10.5 : 11.5);
       target.set(0, desktop ? -0.1 : 0.55, 0);
-    } else if (mode === "detail") {
-      base.set(desktop ? 0.9 : 0, desktop ? 0.1 : 1.2, desktop ? 10.8 : 12.5);
-      target.set(desktop ? 1.1 : 0, desktop ? 0 : 1.0, 0);
     } else {
       base.set(0.4, 0.4, 13.5);
       target.set(0.4, 0.5, 0);

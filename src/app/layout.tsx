@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Footer } from "@/components/chrome/Footer";
 import { Nav } from "@/components/chrome/Nav";
+import { RouteTracker } from "@/components/chrome/RouteTracker";
 import { SceneHost } from "@/components/scene/SceneHost";
 import { links } from "@/content/links";
 import { site } from "@/content/site";
@@ -66,8 +67,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060f0e",
-  colorScheme: "dark",
+  themeColor: "#e3faf5",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SceneHost />
         <div className="vignette" aria-hidden="true" />
         <div className="grain" aria-hidden="true" />
+        <RouteTracker />
         <Nav />
         <main id="main" tabIndex={-1}>
           {children}
