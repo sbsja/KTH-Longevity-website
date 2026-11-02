@@ -11,6 +11,12 @@
     {
       "name": "static",
       "url": "http://localhost:3011"
+    },
+    {
+      "name": "logo-motion-lab",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["experiments/logo-motion/serve.mjs", "3020"],
+      "port": 3020
     }
   ]
 }

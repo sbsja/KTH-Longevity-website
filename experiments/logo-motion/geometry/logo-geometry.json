@@ -1,0 +1,120 @@
+{
+  "source": "public/brand/kth-longevity-logo.png",
+  "generatedBy": "experiments/logo-motion/geometry/extract-logo-geometry.mjs",
+  "coordinateSpace": "pixels of the source PNG (1008 × 480), y down",
+  "image": {
+    "width": 1008,
+    "height": 480
+  },
+  "background": "#e3faf5",
+  "markBox": {
+    "x": 175,
+    "y": 172,
+    "w": 663,
+    "h": 136
+  },
+  "symbolBox": {
+    "x": 179,
+    "y": 200,
+    "w": 134,
+    "h": 80
+  },
+  "wordmarkBox": {
+    "x": 379,
+    "y": 176,
+    "w": 456,
+    "h": 129
+  },
+  "inkBox": {
+    "x": 179,
+    "y": 176,
+    "w": 656,
+    "h": 129
+  },
+  "order": [
+    "navy",
+    "blue"
+  ],
+  "onTop": "blue",
+  "strokes": {
+    "navy": {
+      "color": "#08283d",
+      "width": 11.71,
+      "cap": "round",
+      "path": "M185.6 206.14 C235.24 210.94 257.59 269.81 306.4 273.74",
+      "points": [
+        [
+          185.6,
+          206.14
+        ],
+        [
+          235.24,
+          210.94
+        ],
+        [
+          257.59,
+          269.81
+        ],
+        [
+          306.4,
+          273.74
+        ]
+      ],
+      "from": "top-left",
+      "to": "bottom-right"
+    },
+    "blue": {
+      "color": "#175998",
+      "width": 11.69,
+      "cap": "round",
+      "path": "M185.6 273.83 C234.53 269.61 258.34 209.7 306.47 206.3",
+      "points": [
+        [
+          185.6,
+          273.83
+        ],
+        [
+          234.53,
+          269.61
+        ],
+        [
+          258.34,
+          209.7
+        ],
+        [
+          306.47,
+          206.3
+        ]
+      ],
+      "from": "bottom-left",
+      "to": "top-right"
+    }
+  },
+  "crossing": {
+    "x": 246.05,
+    "y": 240.01,
+    "tNavy": 0.4975,
+    "tBlue": 0.4975
+  },
+  "fit": {
+    "navyCentrelineMaxErrPx": 1.37,
+    "blueCentrelineMaxErrPx": 0.4
+  },
+  "fidelity": {
+    "region": {
+      "left": 173,
+      "top": 194,
+      "width": 147,
+      "height": 93
+    },
+    "meanAbsError255": 0.974,
+    "maxAbsError255": 100.66666666666667,
+    "pixelsOver16": 311,
+    "pixelsCompared": 13671,
+    "note": "Per-channel mean absolute difference between the vector render (librsvg) and the PNG over the symbol area, 0–255 scale."
+  },
+  "massDip": {
+    "navy": 0.07,
+    "blue": 1
+  }
+}

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Logo motion lab · KTH Longevity</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/lab.css" />
+    <!-- GSAP core with the CSS plugin, from the repository's node_modules (UMD build, exposes window.gsap). -->
+    <script src="/vendor/gsap.min.js"></script>
+  </head>
+  <body>
+    <a href="#stage-region" class="skip-link">Skip to the animation stage</a>
+
+    <header class="lab-head">
+      <div class="lab-title">
+        <h1>Logo motion lab</h1>
+        <p class="lab-sub">Six intro concepts for KTH Longevity on one stage: same artwork, same size, same background. Pick a concept, watch it, scrub it, shortlist it.</p>
+      </div>
+      <div class="lab-modes">
+        <fieldset class="seg" id="context-seg">
+          <legend>Presentation</legend>
+          <label><input type="radio" name="context" value="logo" checked /><span>Logo only</span></label>
+          <label><input type="radio" name="context" value="home" /><span>Homepage context</span></label>
+        </fieldset>
+        <fieldset class="seg" id="device-seg">
+          <legend>Preview width</legend>
+          <label><input type="radio" name="device" value="desktop" checked /><span>Desktop <small>1440</small></span></label>
+          <label><input type="radio" name="device" value="phone" /><span>Phone <small>390</small></span></label>
+        </fieldset>
+      </div>
+    </header>
+
+    <main class="lab">
+      <aside class="concepts" aria-labelledby="concepts-heading">
+        <h2 id="concepts-heading" class="side-heading">Concepts</h2>
+        <div class="concept-list" id="concept-list" role="radiogroup" aria-labelledby="concepts-heading"></div>
+        <p class="shortlist-note" id="shortlist-note" aria-live="polite"></p>
+      </aside>
+
+      <section class="player" aria-labelledby="stage-heading">
+        <h2 id="stage-heading" class="visually-hidden">Animation stage and playback controls</h2>
+
+        <div class="stage-wrap">
+          <div class="stage" id="stage" data-device="desktop" data-context="logo" tabindex="-1">
+            <div class="stage-region" id="stage-region" aria-label="Animation stage" role="img"></div>
+            <div class="stage-overlay">
+              <button type="button" class="btn btn-primary replay-overlay" id="replay-overlay" hidden>
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8a4.5 4.5 0 1 0 1.3-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /><path d="M3.2 1.8v3.4h3.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                Replay
+              </button>
+              <p class="stage-note" id="stage-note" hidden></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls" role="group" aria-label="Playback">
+          <div class="controls-row">
+            <div class="transport">
+              <button type="button" class="btn btn-primary" id="btn-replay">
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8a4.5 4.5 0 1 0 1.3-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /><path d="M3.2 1.8v3.4h3.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                Replay
+              </button>
+              <button type="button" class="btn" id="btn-toggle" aria-pressed="false">
+                <svg class="icon-play" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L12.5 8z" fill="currentColor" /></svg>
+                <svg class="icon-pause" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3h2.6v10H4.5zM8.9 3h2.6v10H8.9z" fill="currentColor" /></svg>
+                <span id="btn-toggle-label">Play</span>
+              </button>
+              <button type="button" class="btn" id="btn-restart" title="Go back to the first frame and pause">
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /><path d="M12.5 3.4v9.2L6 8z" fill="currentColor" /></svg>
+                First frame
+              </button>
+            </div>
+
+            <div class="timecode" aria-live="off">
+              <span id="time-now" class="mono-num">0.00</span>
+              <span class="timecode-sep">/</span>
+              <span id="time-total" class="mono-num">0.00</span>
+              <span class="timecode-unit">s</span>
+            </div>
+          </div>
+
+          <div class="scrub">
+            <label for="scrubber" class="scrub-label">Timeline position</label>
+            <input type="range" id="scrubber" min="0" max="1" step="0.01" value="1" aria-valuetext="" />
+            <div class="scrub-marks" id="scrub-marks" aria-hidden="true"></div>
+          </div>
+
+          <div class="controls-row controls-row--secondary">
+            <fieldset class="seg seg--speed" id="speed-seg">
+              <legend>Playback speed</legend>
+              <label><input type="radio" name="speed" value="0.5" /><span>0.5×</span></label>
+              <label><input type="radio" name="speed" value="1" checked /><span>1×</span></label>
+              <label><input type="radio" name="speed" value="1.5" /><span>1.5×</span></label>
+            </fieldset>
+            <p class="speed-note" id="speed-note"></p>
+          </div>
+
+          <div class="controls-row controls-row--toggles">
+            <label class="toggle">
+              <input type="checkbox" id="still-toggle" />
+              <span class="toggle-ui" aria-hidden="true"></span>
+              <span class="toggle-text">Still preview <small>what reduced-motion visitors see</small></span>
+            </label>
+            <label class="toggle" id="settle-toggle-wrap">
+              <input type="checkbox" id="settle-toggle" />
+              <span class="toggle-ui" aria-hidden="true"></span>
+              <span class="toggle-text">Settle into header <small>optional ending, homepage context</small></span>
+            </label>
+          </div>
+
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+        </div>
+
+        <article class="about" id="about" aria-labelledby="about-heading">
+          <div class="about-head">
+            <h2 id="about-heading" class="about-title"></h2>
+            <p class="about-duration" id="about-duration"></p>
+          </div>
+          <p class="about-desc" id="about-desc"></p>
+          <dl class="about-facts">
+            <div><dt>Built with</dt><dd id="about-approach"></dd></div>
+            <div><dt>Strengths</dt><dd id="about-strengths"></dd></div>
+            <div><dt>Limitations</dt><dd id="about-limits"></dd></div>
+          </dl>
+          <p class="about-fidelity" id="about-fidelity"></p>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="/lab.js"></script>
+  </body>
+</html>
